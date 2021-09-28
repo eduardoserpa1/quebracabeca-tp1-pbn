@@ -3,6 +3,7 @@
 #include <string.h> // Para usar strings
 #include <time.h>
 #include <conio.h>
+#include "hiroshima.c"
 
 
 #ifdef WIN32
@@ -38,7 +39,7 @@ typedef struct
 void load(char *name, Img *pic);
 void valida();
 int cmp(const void *elem1, const void *elem2);
-
+//
 void compara(RGB *proximidade,RGB *pixel_desej, RGB *pixel_saida);
 
 // Funções da interface gráfica e OpenGL
@@ -129,9 +130,9 @@ int main(int argc, char *argv[])
     int tam = pic[ORIGEM].width * pic[ORIGEM].height;
     memcpy(pic[SAIDA].img, pic[ORIGEM].img, sizeof(RGB) * tam);
 
-
-
-	for(int i=0; i<tam; i++) {
+    // ~
+    
+    for(int i=0; i<tam; i++){
         RGB *pixel_desejado = &pic[DESEJ].img[i];
         RGB *pixel_saida = &pic[SAIDA].img[i];
         RGB *pixel_origem = &pic[ORIGEM].img[i];
@@ -142,15 +143,14 @@ int main(int argc, char *argv[])
 
     int maior = 0;
     int count = 0;
-    
-    for(int i=0; i<10000000; i++){
 
-        long r1;// = rand() % tam;
-        int r2;// = rand() % tam;
+    for(int i=0; i<80000000; i++){
 
-        r1 = (rand() << 15 | rand()) % tam;
-        r2 = (rand() << 15 | rand()) % tam;
-        
+        long r1;
+        int r2;
+
+        r1 = genrand64_int64() % tam;
+        r2 = genrand64_int64() % tam;
 
         //printf("r1:%d | r2:%d\n",r1,r2);
         if(r1 > maior) maior = r1;
@@ -167,7 +167,7 @@ int main(int argc, char *argv[])
         RGB p1_proximidade_depois;
         RGB p2_proximidade_depois;
 
-         //printf("{proximidade_pixel_r_1=%u | proximidade_pixel_g_1=%u | proximidade_pixel_b_1=%u}\n",p1_proximidade_antes.r,p1_proximidade_antes.g,p1_proximidade_antes.b);
+        //printf("{proximidade_pixel_r_1=%u | proximidade_pixel_g_1=%u | proximidade_pixel_b_1=%u}\n",p1_proximidade_antes.r,p1_proximidade_antes.g,p1_proximidade_antes.b);
 
         compara(&p1_proximidade_antes,p1_desej,p1_saida);
         compara(&p2_proximidade_antes,p2_desej,p2_saida);
@@ -178,13 +178,13 @@ int main(int argc, char *argv[])
         //printf("p1{r=%u | g=%u | b=%u}\n",p1_proximidade_antes.r,p1_proximidade_antes.g,p1_proximidade_antes.b);
         //printf("p2{r=%u | g=%u | b=%u}\n\n",p2_proximidade_antes.r,p2_proximidade_antes.g,p2_proximidade_antes.b);
         //printf("p1{r=%u | g=%u | b=%u}\n",p1_proximidade_depois.r,p1_proximidade_depois.g,p1_proximidade_depois.b);
-        //printf("p2{r=%u | g=%u | b=%u}\n",p2_proximidade_depois.r,p2_proximidade_depois.g,p2_proximidade_depois.b);
+        //printf("p2{r=%u | g=%u | b=%u}\n",p2_proximidade_depois.r,p2_proximidade_depois.g,p2_proximidade_depois.b);   
 
-        
+
         //refinar a condição de proximidade
-        if(p1_proximidade_depois.r <= p1_proximidade_antes.r &&
-           p1_proximidade_depois.g <= p1_proximidade_antes.g &&
-           p1_proximidade_depois.b <= p1_proximidade_antes.b
+        if(p1_proximidade_depois.r < p1_proximidade_antes.r &&
+           p1_proximidade_depois.g < p1_proximidade_antes.g &&
+           p1_proximidade_depois.b < p1_proximidade_antes.b
           ){
               count++;
               RGB aux;
@@ -198,9 +198,9 @@ int main(int argc, char *argv[])
     printf("rand(): %d\n",rand() << rand());
     printf("[tam=%d]\n",tam);
 
+    
 
-
-
+    // ~
 
     // NÃO ALTERAR A PARTIR DAQUI!
 
