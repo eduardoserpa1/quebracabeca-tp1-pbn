@@ -133,27 +133,23 @@ int main(int argc, char *argv[])
     // ~
     
     for(int i=0; i<tam; i++){
+
         RGB *pixel_desejado = &pic[DESEJ].img[i];
         RGB *pixel_saida = &pic[SAIDA].img[i];
         RGB *pixel_origem = &pic[ORIGEM].img[i];
-        
-        // desenha a imagem desejada na saída
+    
         *pixel_saida = *pixel_origem;
     }
-
-    int maior = 0;
+    
     int count = 0;
 
-    //for(int i=0; i<80000000; i++){
     while(count < 10*tam){
+
         long r1;
         long r2;
 
         r1 = genrand64_int64() % tam;
         r2 = genrand64_int64() % tam;
-
-        //printf("r1:%d | r2:%d\n",r1,r2);
-        //if(r1 > maior) maior = r1;
         
         if(r1 == r2) continue;
 
@@ -174,23 +170,20 @@ int main(int argc, char *argv[])
         compara(&p1_proximidade_depois,p2_desej,p1_saida);
         compara(&p2_proximidade_depois,p1_desej,p2_saida);
 
-        if(
-            (p1_proximidade_depois.r <= p1_proximidade_antes.r && p1_proximidade_depois.g <= p1_proximidade_antes.g && p1_proximidade_depois.b <= p1_proximidade_antes.b)
-          ){
+        if((p1_proximidade_depois.r < p1_proximidade_antes.r && 
+            p1_proximidade_depois.g < p1_proximidade_antes.g && 
+            p1_proximidade_depois.b < p1_proximidade_antes.b)){
+
             count++;
             RGB aux;
             aux = pic[SAIDA].img[r1];
             pic[SAIDA].img[r1] = pic[SAIDA].img[r2];
             pic[SAIDA].img[r2] = aux;
         }
-
+        
 
     }
-    printf("count:%d | maior:%d\n",count,maior);
-    //printf("rand(): %d\n",rand() << rand());
-    printf("[tam=%d]\n",tam);
-
-    
+ 
 
     // ~
 
